@@ -1,0 +1,15 @@
+name = "cmp-api"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+[vars]
+ENVIRONMENT = "development"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cmp-consents-dev"
+database_id = "local"
+
+[[kv_namespaces]]
+binding = "CONFIG_CACHE"
+id = "local"

@@ -1,0 +1,18 @@
+{
+  "name": "cmp",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "dev:worker": "cd packages/worker && npm run dev",
+    "dev:widget": "cd packages/widget && npm run dev",
+    "build:worker": "cd packages/worker && npm run build",
+    "build:widget": "cd packages/widget && npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

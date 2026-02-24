@@ -1,0 +1,21 @@
+{
+  "name": "@cmp/worker",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "wrangler deploy --dry-run",
+    "deploy": "wrangler deploy",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "hono": "^4.7.0",
+    "nanoid": "^5.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250214.0",
+    "wrangler": "^4.0.0",
+    "@cloudflare/vitest-pool-workers": "^0.8.0",
+    "vitest": "^3.0.0"
+  }
+}
