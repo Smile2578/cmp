@@ -3,13 +3,17 @@ main = "src/index.ts"
 compatibility_date = "2025-01-01"
 
 [vars]
-ENVIRONMENT = "development"
+ENVIRONMENT = "production"
+
+# Serve widget as static asset
+[assets]
+directory = "../widget/dist"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "cmp-consents-dev"
-database_id = "local"
+database_name = "cmp-consents-prod"
+database_id = "87739e51-1535-48e1-8c4a-871031f7d2ff"
 
 [[kv_namespaces]]
 binding = "CONFIG_CACHE"
-id = "local"
+id = "3632824436d842cd94f5adddd95f458c"
