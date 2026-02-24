@@ -11,6 +11,7 @@ describe('POST /api/consent', () => {
   it('saves a consent record and returns 201', async () => {
     const payload = {
       visitor_id: 'v_test123',
+      site_id: 'test-site',
       categories: {
         essential: true,
         analytics: true,
@@ -58,6 +59,7 @@ describe('POST /api/consent', () => {
   it('truncates IP address to /24', async () => {
     const payload = {
       visitor_id: 'v_iptest',
+      site_id: 'test-site',
       categories: { essential: true, analytics: false, marketing: false, functional: false },
       widget_version: '1.0.0'
     }
@@ -83,12 +85,43 @@ describe('POST /api/consent', () => {
 
     expect(result?.ip_truncated).toBe('203.0.113.0/24')
   })
+
+  it('truncates IPv6 address to /48', async () => {
+    const payload = {
+      visitor_id: 'v_ipv6test',
+      site_id: 'test-site',
+      categories: { essential: true, analytics: false, marketing: false, functional: false },
+      widget_version: '1.0.0'
+    }
+
+    const request = new Request('http://localhost/api/consent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'CF-Connecting-IP': '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
+      },
+      body: JSON.stringify(payload)
+    })
+
+    const ctx = createExecutionContext()
+    const response = await app.fetch(request, env, ctx)
+    await waitOnExecutionContext(ctx)
+
+    expect(response.status).toBe(201)
+
+    const result = await env.DB.prepare(
+      'SELECT ip_truncated FROM consents WHERE visitor_id = ?'
+    ).bind('v_ipv6test').first()
+
+    expect(result?.ip_truncated).toBe('2001:0db8:85a3::/48')
+  })
 })
 
 describe('GET /api/consent/:visitorId', () => {
   it('returns the latest consent for a visitor', async () => {
     const payload = {
       visitor_id: 'v_lookup',
+      site_id: 'test-site',
       categories: { essential: true, analytics: true, marketing: false, functional: false },
       widget_version: '1.0.0'
     }
@@ -103,7 +136,7 @@ describe('GET /api/consent/:visitorId', () => {
     await app.fetch(postReq, env, ctx1)
     await waitOnExecutionContext(ctx1)
 
-    const getReq = new Request('http://localhost/api/consent/v_lookup')
+    const getReq = new Request('http://localhost/api/consent/v_lookup?site_id=test-site')
     const ctx2 = createExecutionContext()
     const response = await app.fetch(getReq, env, ctx2)
     await waitOnExecutionContext(ctx2)

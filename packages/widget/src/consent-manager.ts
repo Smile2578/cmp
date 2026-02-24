@@ -67,7 +67,7 @@ export class ConsentManager {
   private async applyConsent(categories: ConsentCategories): Promise<void> {
     setConsent(this.siteId, categories, CONSENT_DURATION_MONTHS)
 
-    saveConsent(this.apiUrl, this.visitorId, categories, WIDGET_VERSION).catch(() => {
+    saveConsent(this.apiUrl, this.siteId, this.visitorId, categories, WIDGET_VERSION).catch(() => {
       // Silent fail — local cookie is the source of truth
     })
 

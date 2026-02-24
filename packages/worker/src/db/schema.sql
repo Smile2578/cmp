@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS consents (
   id TEXT PRIMARY KEY,
+  site_id TEXT NOT NULL,
   visitor_id TEXT NOT NULL,
   categories TEXT NOT NULL,
   ip_truncated TEXT,
@@ -12,4 +13,5 @@ CREATE TABLE IF NOT EXISTS consents (
 );
 
 CREATE INDEX IF NOT EXISTS idx_consents_visitor ON consents(visitor_id);
+CREATE INDEX IF NOT EXISTS idx_consents_site ON consents(site_id);
 CREATE INDEX IF NOT EXISTS idx_consents_purge ON consents(purge_after);

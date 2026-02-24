@@ -7,6 +7,7 @@ export interface Env {
 
 export interface ConsentRecord {
   id: string
+  site_id: string
   visitor_id: string
   categories: string
   ip_truncated: string | null
@@ -20,6 +21,7 @@ export interface ConsentRecord {
 
 export interface ConsentPayload {
   visitor_id: string
+  site_id: string
   categories: {
     essential: boolean
     analytics: boolean
