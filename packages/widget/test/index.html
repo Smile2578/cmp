@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMP Test Page</title>
+
+  <!-- Google Consent Mode v2 default (before CMP loads) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+  </script>
+
+  <!-- CMP Widget -->
+  <script src="../dist/consent.js" data-site="test_site_001" data-api="http://localhost:8787" async></script>
+
+  <!-- Blocked analytics script -->
+  <script type="text/plain" data-consent="analytics" data-src="https://www.google-analytics.com/analytics.js"></script>
+
+  <!-- Blocked marketing script -->
+  <script type="text/plain" data-consent="marketing" data-src="https://www.googletagmanager.com/gtag/js"></script>
+</head>
+<body>
+  <h1>CMP Test Page</h1>
+  <p>This page tests the consent widget.</p>
+
+  <iframe data-consent="functional" data-src="https://www.youtube.com/embed/dQw4w9WgXcQ" src="about:blank" width="560" height="315"></iframe>
+
+  <hr>
+  <h2>Controls</h2>
+  <button onclick="window.CMP && CMP.init({siteId: 'test_site_001', apiUrl: 'http://localhost:8787'}).show()">Show banner</button>
+  <button onclick="window.CMP && CMP.init({siteId: 'test_site_001', apiUrl: 'http://localhost:8787'}).revoke()">Revoke consent</button>
+
+  <hr>
+  <h2>Consent status</h2>
+  <pre id="status">Checking...</pre>
+
+  <script>
+    setInterval(() => {
+      const consent = document.cookie.match(/_consent_test_site_001=([^;]*)/)
+      document.getElementById('status').textContent = consent
+        ? JSON.stringify(JSON.parse(decodeURIComponent(consent[1])), null, 2)
+        : 'No consent'
+    }, 1000)
+  </script>
+</body>
+</html>
